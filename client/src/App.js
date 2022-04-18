@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Dashboard, Login, Register, NotFound } from "./pages";
-import { AuthContainer } from "./containers";
+import { Dashboard, Login, Register, NoteDetails, NotFound } from "./pages";
+import { AuthContainer, DashboardContainer } from "./containers";
 import "./App.css";
 
 export default function App() {
@@ -8,12 +8,18 @@ export default function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="*" element={<NotFound />} />
+
+				{/* auth routes */}
 				<Route path="" element={<AuthContainer />}>
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Route>
 
-				<Route index element={<Dashboard />} />
+				{/* dashboard routes */}
+				<Route path="" element={<DashboardContainer />}>
+					<Route index element={<Dashboard />} />
+					<Route path="note/:noteId" element={<NoteDetails />} />
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);

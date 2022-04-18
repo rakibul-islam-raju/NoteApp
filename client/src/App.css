@@ -1,3 +1,7 @@
+body {
+    @apply bg-slate-800
+}
+
 .wrapper {
     @apply container mx-auto px-5 md:px-0
 }
@@ -24,6 +28,18 @@
 
 .form-error {
     @apply text-pink-600 ml-1
+}
+
+.nav-link {
+    @apply text-slate-400 font-semibold hover:text-pink-600 transition ease-linear
+}
+
+.note-list {
+    @apply text-slate-400 block font-semibold text-lg mb-2 hover:text-pink-600 transition ease-linear
+}
+
+.dashboard-title {
+    @apply text-pink-600 text-2xl font-semibold mb-3
 }
 
 /* login */
