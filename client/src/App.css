@@ -1,0 +1,19 @@
+.section-title {
+    @apply text-slate-700 text-3xl font-semibold
+}
+
+.form-label {
+    @apply text-slate-700 pb-2
+}
+
+.form-input {
+    @apply w-full p-2 rounded-lg border hover:border-pink-600 focus:outline-none focus:border-pink-600 transition ease-linear
+}
+
+.btn{
+    @apply bg-slate-700 text-white font-semibold text-lg px-3 py-1 rounded-lg shadow hover:bg-pink-600 transition ease-linear
+}
+
+.link {
+    @apply text-pink-600 underline hover:text-slate-700
+}
