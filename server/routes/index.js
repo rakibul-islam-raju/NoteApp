@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const authRoutes = require("./auth");
-// const userRoutes = require("./users");
-// const authenticate = require("../middleware/authenticate");
+const categoryRoutes = require("./category");
+const tagRoutes = require("./tag");
 
 router.use("/api/v1/auth", authRoutes);
-// router.use("/api/v1/users", authenticate, userRoutes);
+router.use("/api/v1/categories", categoryRoutes);
+router.use("/api/v1/tags", tagRoutes);
 
 module.exports = router;
