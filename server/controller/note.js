@@ -3,6 +3,7 @@ const noteService = require("../service/note");
 
 const postNote = async (req, res, next) => {
 	const { category, tag, title, body } = req.body;
+	console.log(category, tag, title, body);
 	const user = req.user._id;
 
 	try {

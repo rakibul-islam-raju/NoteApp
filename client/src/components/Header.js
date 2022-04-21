@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/auth";
@@ -26,15 +25,23 @@ export default function Header() {
 								Notes
 							</Link>
 						</li> */}
-						<li>
-							<button
-								type="button"
-								onClick={() => dispatch(logout())}
-								className="nav-link"
-							>
-								Logout
-							</button>
-						</li>
+						{isLoggedIn ? (
+							<li>
+								<button
+									type="button"
+									onClick={() => dispatch(logout())}
+									className="nav-link"
+								>
+									Logout
+								</button>
+							</li>
+						) : (
+							<li>
+								<Link to="/login" className="nav-link">
+									Login
+								</Link>
+							</li>
+						)}
 					</ul>
 				</nav>
 			</div>

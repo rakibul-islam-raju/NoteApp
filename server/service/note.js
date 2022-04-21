@@ -15,10 +15,13 @@ const noteDetail = (noteId, userId) => {
 	return Note.findOne({ _id: noteId, user: userId });
 };
 
-const createNote = async ({ user, name }) => {
+const createNote = async ({ user, category, tag, title, body }) => {
 	const note = new Note({
 		user,
-		name,
+		category,
+		tag,
+		title,
+		body,
 	});
 	return note.save();
 };
