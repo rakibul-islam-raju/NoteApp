@@ -5,7 +5,7 @@ const {
 	getTagById,
 	patchTagById,
 	deleteTagById,
-} = require("../controller/category");
+} = require("../controller/tag");
 
 router.get("/", getTag);
 router.post("/", postTag);
