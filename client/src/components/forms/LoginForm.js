@@ -1,8 +1,17 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 import LoginSchema from "../../schemas/LoginSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/slices/auth";
 
 export default function LoginForm() {
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate;
+
+	const { message } = useSelector((state) => state.message);
+
 	const {
 		register,
 		handleSubmit,
@@ -12,9 +21,22 @@ export default function LoginForm() {
 		resolver: yupResolver(LoginSchema),
 	});
 
+	const dispatch = useDispatch();
+
 	const loginHandler = (data) => {
-		console.log({ data });
-		reset();
+		const { email, password } = data;
+		setLoading(true);
+		dispatch(login({ email, password }))
+			.unwrap()
+			.then(() => {
+				navigate("/");
+				// window.location.reload();
+			})
+			.catch(() => {
+				setLoading(false);
+			});
+
+		// reset();
 	};
 
 	return (
