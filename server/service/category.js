@@ -1,7 +1,7 @@
 const Category = require("../models/Category");
 
-const findCategories = () => {
-	return Category.find();
+const findCategories = (userId) => {
+	return Category.find({ user: userId });
 };
 
 const findCategoryByProperty = (key, value) => {
@@ -9,6 +9,10 @@ const findCategoryByProperty = (key, value) => {
 		return Category.findById(value);
 	}
 	return Category.findOne({ [key]: value });
+};
+
+const categoryDetail = (categoryId, userId) => {
+	return Category.findOne({ _id: categoryId, user: userId });
 };
 
 const createCategory = async ({ user, name }) => {
@@ -22,5 +26,6 @@ const createCategory = async ({ user, name }) => {
 module.exports = {
 	findCategories,
 	findCategoryByProperty,
+	categoryDetail,
 	createCategory,
 };

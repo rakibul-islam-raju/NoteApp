@@ -1,7 +1,7 @@
 const Tag = require("../models/Tag");
 
-const findTags = () => {
-	return Tag.find();
+const findTags = (userId) => {
+	return Tag.find({ user: userId });
 };
 
 const findTagByProperty = (key, value) => {
@@ -9,6 +9,10 @@ const findTagByProperty = (key, value) => {
 		return Tag.findById(value);
 	}
 	return Tag.findOne({ [key]: value });
+};
+
+const tagDetail = (tagId, userId) => {
+	return Tag.findOne({ _id: tagId, user: userId });
 };
 
 const createTag = async ({ user, name, color }) => {
@@ -23,5 +27,6 @@ const createTag = async ({ user, name, color }) => {
 module.exports = {
 	findTags,
 	findTagByProperty,
+	tagDetail,
 	createTag,
 };

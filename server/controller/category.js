@@ -2,7 +2,8 @@ const error = require("../utils/error");
 const categoryService = require("../service/category");
 
 const postCategory = async (req, res, next) => {
-	const { user, name } = req.body;
+	const { name } = req.body;
+	const user = req.user._id;
 
 	try {
 		const category = await categoryService.createCategory({
@@ -16,8 +17,10 @@ const postCategory = async (req, res, next) => {
 };
 
 const getCategory = async (req, res, next) => {
+	const userId = req.user._id;
+
 	try {
-		const data = await categoryService.findCategories();
+		const data = await categoryService.findCategories(userId);
 		return res.status(200).json(data);
 	} catch (e) {
 		next(e);
@@ -25,13 +28,13 @@ const getCategory = async (req, res, next) => {
 };
 
 const getCategoryById = async (req, res, next) => {
-	console.log("cat get");
 	const { categoryId } = req.params;
+	const userId = req.user._id;
 
 	try {
-		const category = await categoryService.findCategoryByProperty(
-			"_id",
-			categoryId
+		const category = await categoryService.categoryDetail(
+			categoryId,
+			userId
 		);
 		if (!category) throw error("Category not found!", 404);
 		return res.status(200).json(category);
@@ -54,6 +57,9 @@ const patchCategoryById = async (req, res, next) => {
 			throw error("Category not found", 404);
 		}
 
+		if (category.user !== req.user._id)
+			throw error("Permission denied", 400);
+
 		category.name = name ?? category.name;
 		await category.save();
 
@@ -75,6 +81,9 @@ const deleteCategoryById = async (req, res, next) => {
 		if (!category) {
 			throw error("Category not found", 404);
 		}
+
+		if (category.user !== req.user._id)
+			throw error("Permission denied", 400);
 
 		await category.remove();
 		return res.status(203).send();

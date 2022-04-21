@@ -1,7 +1,7 @@
 const Note = require("../models/Note");
 
-const findNotes = () => {
-	return Note.find();
+const findNotes = (userId) => {
+	return Note.find({ user: userId });
 };
 
 const findNoteByProperty = (key, value) => {
@@ -9,6 +9,10 @@ const findNoteByProperty = (key, value) => {
 		return Note.findById(value);
 	}
 	return Note.findOne({ [key]: value });
+};
+
+const noteDetail = (noteId, userId) => {
+	return Note.findOne({ _id: noteId, user: userId });
 };
 
 const createNote = async ({ user, name }) => {
@@ -22,5 +26,6 @@ const createNote = async ({ user, name }) => {
 module.exports = {
 	findNotes,
 	findNoteByProperty,
+	noteDetail,
 	createNote,
 };

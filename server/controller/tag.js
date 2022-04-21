@@ -2,7 +2,8 @@ const error = require("../utils/error");
 const tagService = require("../service/tag");
 
 const postTag = async (req, res, next) => {
-	const { user, name, color } = req.body;
+	const { name, color } = req.body;
+	const user = req.user._id;
 
 	try {
 		const tag = await tagService.createTag({
@@ -16,9 +17,11 @@ const postTag = async (req, res, next) => {
 	}
 };
 
-const getTag = async (_, res, next) => {
+const getTag = async (req, res, next) => {
+	const userId = req.user._id;
+
 	try {
-		const data = await tagService.findTags();
+		const data = await tagService.findTags(userId);
 		return res.status(200).json(data);
 	} catch (e) {
 		next(e);
@@ -27,9 +30,10 @@ const getTag = async (_, res, next) => {
 
 const getTagById = async (req, res, next) => {
 	const { tagId } = req.params;
+	const userId = req.user._id;
 
 	try {
-		const tag = await tagService.findTagByProperty("_id", tagId);
+		const tag = await tagService.tagDetail(tagId, userId);
 		if (!tag) throw error("Tag not found!", 404);
 		return res.status(200).json(tag);
 	} catch (e) {
@@ -47,6 +51,8 @@ const patchTagById = async (req, res, next) => {
 		if (!tag) {
 			throw error("Tag not found", 404);
 		}
+
+		if (tag.user !== req.user._id) throw error("Permission denied", 400);
 
 		tag.name = name ?? tag.name;
 		tag.color = color ?? tag.color;
@@ -67,6 +73,8 @@ const deleteTagById = async (req, res, next) => {
 		if (!tag) {
 			throw error("Tag not found", 404);
 		}
+
+		if (tag.user !== req.user._id) throw error("Permission denied", 400);
 
 		await tag.remove();
 		return res.status(203).send();
