@@ -52,7 +52,8 @@ const patchTagById = async (req, res, next) => {
 			throw error("Tag not found", 404);
 		}
 
-		if (tag.user !== req.user._id) throw error("Permission denied", 400);
+		if (tag.user.toString() !== req.user._id.toString())
+			throw error("Permission denied", 400);
 
 		tag.name = name ?? tag.name;
 		tag.color = color ?? tag.color;
@@ -74,7 +75,8 @@ const deleteTagById = async (req, res, next) => {
 			throw error("Tag not found", 404);
 		}
 
-		if (tag.user !== req.user._id) throw error("Permission denied", 400);
+		if (tag.user.toString() !== req.user._id.toString())
+			throw error("Permission denied", 400);
 
 		await tag.remove();
 		return res.status(203).send();

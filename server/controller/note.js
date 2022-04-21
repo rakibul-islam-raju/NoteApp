@@ -54,7 +54,8 @@ const patchNoteById = async (req, res, next) => {
 			throw error("Note not found", 404);
 		}
 
-		if (note.user !== req.user._id) throw error("Permission denied", 400);
+		if (note.user.toString() !== req.user._id.toString())
+			throw error("Permission denied", 400);
 
 		note.category = category ?? note.category;
 		note.tag = tag ?? note.tag;
@@ -78,7 +79,8 @@ const deleteNoteById = async (req, res, next) => {
 			throw error("Note not found", 404);
 		}
 
-		if (note.user !== req.user._id) throw error("Permission denied", 400);
+		if (note.user.toString() !== req.user._id.toString())
+			throw error("Permission denied", 400);
 
 		await note.remove();
 		return res.status(203).send();

@@ -57,7 +57,7 @@ const patchCategoryById = async (req, res, next) => {
 			throw error("Category not found", 404);
 		}
 
-		if (category.user !== req.user._id)
+		if (category.user.toString() !== req.user._id.toString())
 			throw error("Permission denied", 400);
 
 		category.name = name ?? category.name;
@@ -82,8 +82,9 @@ const deleteCategoryById = async (req, res, next) => {
 			throw error("Category not found", 404);
 		}
 
-		if (category.user !== req.user._id)
+		if (category.user.toString() !== req.user._id.toString()) {
 			throw error("Permission denied", 400);
+		}
 
 		await category.remove();
 		return res.status(203).send();
