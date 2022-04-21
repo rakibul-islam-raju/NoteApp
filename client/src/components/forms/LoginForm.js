@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import LoginSchema from "../../schemas/LoginSchema";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slices/auth";
+import Message from "../Message";
+import Loader from "../Loader";
+import { clearMessage } from "../../redux/slices/message";
 
 export default function LoginForm() {
 	const [loading, setLoading] = useState(false);
-	const navigate = useNavigate;
+	const navigate = useNavigate();
 
 	const { message } = useSelector((state) => state.message);
 
@@ -29,18 +32,22 @@ export default function LoginForm() {
 		dispatch(login({ email, password }))
 			.unwrap()
 			.then(() => {
+				reset();
 				navigate("/");
-				// window.location.reload();
 			})
 			.catch(() => {
 				setLoading(false);
 			});
-
-		// reset();
 	};
+
+	useEffect(() => {
+		dispatch(clearMessage());
+	}, [dispatch]);
 
 	return (
 		<form onSubmit={handleSubmit(loginHandler)}>
+			{message && <Message color="pink" text={message} />}
+
 			<div className="mb-2">
 				<label className="form-label" htmlFor="email">
 					Email Address
@@ -68,9 +75,13 @@ export default function LoginForm() {
 				<p className="form-error">{errors.password?.message}</p>
 			</div>
 
-			<button type="submit" className="btn w-full mt-4">
-				Sign In
-			</button>
+			{loading ? (
+				<Loader />
+			) : (
+				<button type="submit" className="btn w-full mt-4">
+					Sign In
+				</button>
+			)}
 		</form>
 	);
 }

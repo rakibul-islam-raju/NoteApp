@@ -1,8 +1,23 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 import RegisterSchema from "../../schemas/RegisterSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/slices/auth";
+import Message from "../Message";
+import Loader from "../Loader";
+import { clearMessage } from "../../redux/slices/message";
 
 export default function RegisterForm() {
+	const [loading, setLoading] = useState(false);
+	const [successful, setSuccessful] = useState(false);
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const { message } = useSelector((state) => state.message);
+
 	const {
 		register,
 		handleSubmit,
@@ -13,12 +28,38 @@ export default function RegisterForm() {
 	});
 
 	const registerHandler = (data) => {
-		console.log({ data });
-		reset();
+		const { name, email, password } = data;
+
+		setSuccessful(false);
+		setLoading(true);
+		dispatch(register({ name, email, password }))
+			.unwrap()
+			.then((res) => {
+				console.log("rrrrrrrrr");
+				setSuccessful(true);
+				reset();
+			})
+			.catch((err) => {
+				console.log(err);
+				setSuccessful(false);
+			})
+			.finally(() => setLoading(false));
 	};
+
+	useEffect(() => {
+		dispatch(clearMessage());
+	}, [dispatch]);
 
 	return (
 		<form onSubmit={handleSubmit(registerHandler)}>
+			{message && <Message color="pink" text={message} />}
+			{successful && (
+				<Message
+					color="green"
+					text="Successfully registered. Please Login."
+				/>
+			)}
+
 			<div className="mb-2">
 				<label className="form-label" htmlFor="name">
 					Full Name
@@ -71,6 +112,14 @@ export default function RegisterForm() {
 				/>
 				<p className="form-error">{errors.confirmPassword?.message}</p>
 			</div>
+
+			{/* {loading ? (
+				<Loader />
+			) : (
+				<button type="submit" className="btn w-full mt-4">
+					Register Now
+				</button>
+			)} */}
 
 			<button type="submit" className="btn w-full mt-4">
 				Register Now
