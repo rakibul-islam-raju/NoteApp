@@ -5,7 +5,7 @@ export default function DashboardContainer() {
 	return (
 		<>
 			<Header />
-			<main className="wrapper pt-16 text-slate-700 h-screen bg-slate-800">
+			<main className="wrapper pt-16 text-slate-700 h-screen bg-slate-100">
 				<Outlet />
 			</main>
 		</>

@@ -1,5 +1,5 @@
 body {
-    @apply bg-slate-800
+    @apply bg-slate-100
 }
 
 .wrapper {
@@ -39,7 +39,7 @@ body {
 }
 
 .dashboard-title {
-    @apply text-pink-600 text-2xl font-semibold mb-3
+    @apply text-slate-700 text-2xl font-semibold mb-3
 }
 
 /* login */

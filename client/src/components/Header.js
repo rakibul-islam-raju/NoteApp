@@ -5,26 +5,16 @@ import { logout } from "../redux/slices/auth";
 export default function Header() {
 	const dispatch = useDispatch();
 
-	const { user, isLoggedIn } = useSelector((state) => state.auth);
+	const { isLoggedIn } = useSelector((state) => state.auth);
 
 	return (
-		<header className="bg-slate-900 text-white py-3 fixed w-full shadow">
+		<header className="bg-slate-800 text-white py-3 fixed w-full shadow">
 			<div className="wrapper flex flex-wrap justify-between items-center">
-				<div className="text-3xl text-pink-600 font-semibold">
+				<Link to="/" className="text-3xl text-pink-600 font-semibold">
 					Notes
-				</div>
+				</Link>
 				<nav>
 					<ul className="flex flex-wrap items-center justify-between space-x-3">
-						{/* <li>
-							<Link className="nav-link" to="/">
-								Create Note
-							</Link>
-						</li>
-						<li>
-							<Link className="nav-link" to="/">
-								Notes
-							</Link>
-						</li> */}
 						{isLoggedIn ? (
 							<li>
 								<button

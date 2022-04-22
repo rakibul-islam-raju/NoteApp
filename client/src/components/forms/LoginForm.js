@@ -11,7 +11,9 @@ import { clearMessage } from "../../redux/slices/message";
 
 export default function LoginForm() {
 	const [loading, setLoading] = useState(false);
+
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const { message } = useSelector((state) => state.message);
 
@@ -23,8 +25,6 @@ export default function LoginForm() {
 	} = useForm({
 		resolver: yupResolver(LoginSchema),
 	});
-
-	const dispatch = useDispatch();
 
 	const loginHandler = (data) => {
 		const { email, password } = data;
