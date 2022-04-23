@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import noteService from "../service/note.service";
 import categoryService from "../service/category.service";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -9,30 +7,13 @@ import { clearMessage } from "../redux/slices/message";
 import NoteForm from "../components/forms/NoteForm";
 import NoteArticle from "../components/NoteArticle";
 
-export default function NoteDetails() {
-	const { noteId } = useParams();
+export default function NoteCreate() {
 	const dispatch = useDispatch();
 
 	const [note, setNote] = useState(null);
 	const [categories, setCategories] = useState([]);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		noteService
-			.getNoteDetail(noteId)
-			.then((res) => {
-				setNote(res.data);
-			})
-			.catch((err) => {
-				const errorMsg =
-					(err.response && err.response.data.message) ||
-					err.message ||
-					err.toString();
-				setError(errorMsg);
-			})
-			.finally(() => setLoading(false));
-	}, [noteId]);
 
 	useEffect(() => {
 		categoryService
@@ -65,7 +46,7 @@ export default function NoteDetails() {
 						note={note}
 						setNote={setNote}
 						setError={setError}
-						update
+						update={false}
 					/>
 
 					<NoteArticle note={note} />

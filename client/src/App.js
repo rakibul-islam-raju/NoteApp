@@ -1,6 +1,13 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Dashboard, Login, Register, NoteDetails, NotFound } from "./pages";
+import {
+	Dashboard,
+	Login,
+	Register,
+	NoteDetails,
+	NoteCreate,
+	NotFound,
+} from "./pages";
 import {
 	AuthContainer,
 	DashboardContainer,
@@ -38,6 +45,7 @@ export default function App() {
 				>
 					<Route index element={<Dashboard />} />
 					<Route path="note/:noteId" element={<NoteDetails />} />
+					<Route path="note/new" element={<NoteCreate />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

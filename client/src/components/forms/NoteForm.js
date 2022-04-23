@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import noteService from "../../service/note.service";
 import Loader from "../Loader";
-import Message from "../Message";
 
-export default function NoteUpdateForm({
+export default function NoteForm({
 	categories,
 	note,
 	setNote,
 	setError,
+	update,
 }) {
 	const [loading, setLoading] = useState(false);
+
+	const navigate = useNavigate();
 
 	const changeHandler = (e) => {
 		const value = e.target.value;
@@ -36,8 +39,34 @@ export default function NoteUpdateForm({
 			.finally(() => setLoading(false));
 	};
 
+	const createHandler = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		noteService
+			.postNote(note)
+			.then((res) => {
+				if (res.data?._id) {
+					window.alert("Note Created!");
+					navigate("/");
+				}
+			})
+			.catch((err) => {
+				const errorMsg =
+					(err.response && err.response.data.message) ||
+					err.message ||
+					err.toString();
+				setError(errorMsg);
+			})
+			.finally(() => setLoading(false));
+	};
+
 	return (
-		<form onSubmit={updateHandler} className="w-full md:w-6/12 px-3">
+		<form
+			onSubmit={(e) => {
+				update ? updateHandler(e) : createHandler(e);
+			}}
+			className="w-full md:w-6/12 px-3"
+		>
 			<div className="mb-3">
 				<label className="form-tag" htmlFor="category">
 					Category
@@ -94,7 +123,7 @@ export default function NoteUpdateForm({
 				<Loader />
 			) : (
 				<button type="submit" className="btn w-full">
-					Update Note
+					Save
 				</button>
 			)}
 		</form>

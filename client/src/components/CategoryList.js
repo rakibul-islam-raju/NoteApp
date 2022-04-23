@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-export default function CategoryList() {
+export default function CategoryList({ setSelectCategory }) {
 	const [categories, setCategories] = useState([]);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -37,9 +37,12 @@ export default function CategoryList() {
 				<ul>
 					{categories?.map((category) => (
 						<li key={category?._id} className="">
-							<Link className="note-list" to="/">
+							<button
+								className="note-list"
+								onClick={() => setSelectCategory(category?._id)}
+							>
 								{category?.name}
-							</Link>
+							</button>
 						</li>
 					))}
 				</ul>
