@@ -1,6 +1,5 @@
 import CategoryList from "../components/CategoryList";
 import NoteList from "../components/NoteList";
-import TagList from "../components/TagList";
 
 export default function Dashboard() {
 	return (
@@ -11,9 +10,7 @@ export default function Dashboard() {
 			<div className="w-full md:w-6/12 lg:w-2/12">
 				<CategoryList />
 
-				<hr className="my-6" />
-
-				<TagList />
+				{/* <TagList /> */}
 			</div>
 		</section>
 	);
