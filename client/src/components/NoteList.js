@@ -17,6 +17,18 @@ export default function NoteList({ selectCategory }) {
 			);
 			setFilteredNotes(fNotes);
 		}
+
+		if (selectCategory === "uncategorized") {
+			console.log("selectCategory");
+			const fNotes = notes.filter(
+				(item) => item.category === ("" || undefined)
+			);
+			setFilteredNotes(fNotes);
+		}
+
+		if (selectCategory === "all") {
+			setFilteredNotes(notes);
+		}
 	}, [selectCategory, notes]);
 
 	useEffect(() => {

@@ -35,8 +35,25 @@ export default function CategoryList({ setSelectCategory }) {
 				<Loader />
 			) : (
 				<ul>
+					<li className="">
+						<button
+							className="note-list"
+							onClick={() => setSelectCategory("all")}
+						>
+							All Notes
+						</button>
+					</li>
+					<li className="">
+						<button
+							className="note-list"
+							onClick={() => setSelectCategory("uncategorized")}
+						>
+							Uncategorized
+						</button>
+					</li>
+					<hr />
 					{categories?.map((category) => (
-						<li key={category?._id} className="">
+						<li key={category?._id} className="mt-2">
 							<button
 								className="note-list"
 								onClick={() => setSelectCategory(category?._id)}

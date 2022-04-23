@@ -60,6 +60,26 @@ export default function NoteForm({
 			.finally(() => setLoading(false));
 	};
 
+	const deleteHandler = (e) => {
+		setLoading(true);
+		noteService
+			.deleteNote(note?._id)
+			.then((res) => {
+				if (res.status === 203) {
+					window.alert("Note Deleted");
+					navigate("/");
+				}
+			})
+			.catch((err) => {
+				const errorMsg =
+					(err.response && err.response.data.message) ||
+					err.message ||
+					err.toString();
+				setError(errorMsg);
+			})
+			.finally(() => setLoading(false));
+	};
+
 	return (
 		<form
 			onSubmit={(e) => {
@@ -77,7 +97,6 @@ export default function NoteForm({
 					name="category"
 					id="category"
 					value={note?.category}
-					required
 				>
 					<option value="">Select Category</option>
 					{categories?.map((cat) => (
@@ -122,9 +141,20 @@ export default function NoteForm({
 			{loading ? (
 				<Loader />
 			) : (
-				<button type="submit" className="btn w-full">
-					Save
-				</button>
+				<>
+					<button type="submit" className="btn w-full">
+						Save
+					</button>
+					{update && (
+						<button
+							onClick={deleteHandler}
+							type="button"
+							className="text-white w-full mt-3 font-semibold text-lg px-3 py-1 rounded-lg shadow bg-pink-600 transition ease-linear"
+						>
+							Delete Note
+						</button>
+					)}
+				</>
 			)}
 		</form>
 	);
