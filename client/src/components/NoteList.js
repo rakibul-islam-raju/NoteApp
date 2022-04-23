@@ -78,6 +78,10 @@ export default function NoteList({ selectCategory }) {
 			<div className="">
 				{loading ? (
 					<Loader />
+				) : filteredNotes.length === 0 ? (
+					<div className="bg-slate-200 mt-4 rounded-lg font-semibold p-3">
+						No notes found!
+					</div>
 				) : (
 					filteredNotes.map((note) => (
 						<Link

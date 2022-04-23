@@ -17,6 +17,7 @@ export default function NoteDetails() {
 	const [categories, setCategories] = useState([]);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [categoryCreateSuccess, setCategoryCreateSuccess] = useState(false);
 
 	useEffect(() => {
 		noteService
@@ -45,8 +46,11 @@ export default function NoteDetails() {
 					err.toString();
 				setError(errorMsg);
 			})
-			.finally(() => setLoading(false));
-	}, []);
+			.finally(() => {
+				setLoading(false);
+				setCategoryCreateSuccess(false);
+			});
+	}, [categoryCreateSuccess]);
 
 	useEffect(() => {
 		dispatch(clearMessage());
@@ -66,6 +70,7 @@ export default function NoteDetails() {
 						setNote={setNote}
 						setError={setError}
 						update
+						setCategoryCreateSuccess={setCategoryCreateSuccess}
 					/>
 
 					<NoteArticle note={note} />

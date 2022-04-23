@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RegisterSchema from "../../schemas/RegisterSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/slices/auth";
+import { register as registerSlice } from "../../redux/slices/auth";
 import Message from "../Message";
 import Loader from "../Loader";
 import { clearMessage } from "../../redux/slices/message";
@@ -32,7 +32,7 @@ export default function RegisterForm() {
 
 		setSuccessful(false);
 		setLoading(true);
-		dispatch(register({ name, email, password }))
+		dispatch(registerSlice({ name, email, password }))
 			.unwrap()
 			.then((res) => {
 				console.log("rrrrrrrrr");
@@ -55,8 +55,8 @@ export default function RegisterForm() {
 			{message && <Message color="pink" text={message} />}
 			{successful && (
 				<Message
-					color="green"
-					text="Successfully registered. Please Login."
+					color="pink"
+					text={<Link to="/login">Please Login.</Link>}
 				/>
 			)}
 
@@ -113,17 +113,13 @@ export default function RegisterForm() {
 				<p className="form-error">{errors.confirmPassword?.message}</p>
 			</div>
 
-			{/* {loading ? (
+			{loading ? (
 				<Loader />
 			) : (
 				<button type="submit" className="btn w-full mt-4">
 					Register Now
 				</button>
-			)} */}
-
-			<button type="submit" className="btn w-full mt-4">
-				Register Now
-			</button>
+			)}
 		</form>
 	);
 }

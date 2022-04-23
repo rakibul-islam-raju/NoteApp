@@ -7,7 +7,7 @@ export default function Dashboard() {
 
 	return (
 		<section className="flex flex-wrap justify-between">
-			<div className="w-full md:w-6/12 lg:w-10/12">
+			<div className="w-full md:w-6/12 lg:w-10/12 md:pr-12">
 				<NoteList selectCategory={selectCategory} />
 			</div>
 			<div className="w-full md:w-6/12 lg:w-2/12">
